@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "strict": true,
+    "module": "es2022",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "baseUrl": "src",
+    "sourceMap": true,
+    "allowJs": true,   // Povolí TypeScript kompilaci souborů .js
+    //"checkJs": true,   // Zkontroluje JavaScript soubory na chyby
+    "esModuleInterop": true // Povolí interoperabilitu mezi ES modules a CommonJS
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js"],
+  "exclude": ["node_modules"]
+}
