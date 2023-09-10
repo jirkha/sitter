@@ -18,7 +18,10 @@ export default function LoginPage() {
       setLoading(true);
       const response = await axios.post(
         "http://localhost:5000/api/users/login",
-        user
+        user,
+        {
+          withCredentials: true,
+        }
       );
       console.log("Login success", response.data);
       //toast.success("Login success");

@@ -16,13 +16,13 @@ app.listen(port, () => {
 
 connect(process.env.MONGO_DB_DATABASE);
 
-const corsOptions = {
-  origin: "http://localhost:3000",
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-};
-
 app.use(express.json());
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Povolit přístup jen z této domény
+    credentials: true, // Povolit credentials (cookies)
+  })
+);
 
 app.use("/api/users", userRoutes);
 

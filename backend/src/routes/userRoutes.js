@@ -92,9 +92,56 @@ router.post("/login", async (req, res) => {
     return res.json({
       message: "Login successful",
       success: true,
+      token: token
     });
   } catch (error) {
     console.log("error.message", error.message);
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+router.get("/logout", async (req, res, next) =>
+ {
+  try {
+        const reqBody = await req.body;
+        console.log(reqBody);
+    res.cookie("token", "", {
+      httpOnly: true,
+      expires: new Date(0),
+    });
+    console.log("úspěšně odhlášeno");
+    
+    return res.json({
+      message: "Logout successful",
+      success: true,
+    });
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+router.get("/profile", async (req, res) => {
+  console.log("req", req.headers.cookie);
+  try {
+    const token = await req.cookies.get("token")?.value || '';
+    console.log("token", token);
+    const decodedToken = await jwt.verify(token, process.env.TOKEN_SECRET);
+    const userId = decodedToken.id;
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const data = user.toObject();
+    delete data.password;
+
+    return res.json({
+      message: "User found",
+      data: data,
+    });
+  } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 });
